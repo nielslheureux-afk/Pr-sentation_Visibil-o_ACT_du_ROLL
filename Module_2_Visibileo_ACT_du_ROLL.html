@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 – Découvrir des outils pour enseigner la compréhension</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5F0E8;
+    --warm-white: #FDFAF5;
+    --terracotta: #C4673A;
+    --terracotta-light: #E8896A;
+    --forest: #3D6B5A;
+    --forest-light: #5A9478;
+    --slate: #2C3A47;
+    --slate-light: #4A5A68;
+    --muted: #8A8A7A;
+    --border: #DDD8CC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--warm-white);
+    color: var(--slate);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .header {
+    background-color: var(--slate);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(196,103,58,0.15);
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: 10%;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(61,107,90,0.2);
+  }
+
+  .header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .module-label {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 600;
+    color: var(--warm-white);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .header-intro {
+    color: rgba(253,250,245,0.75);
+    font-size: 0.95rem;
+    font-weight: 300;
+    max-width: 600px;
+  }
+
+  /* NAV ONGLETS */
+  .tabs-wrapper {
+    background-color: var(--sand);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .tabs {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .tab-btn .tab-icon {
+    font-size: 1.1rem;
+  }
+
+  .tab-btn:hover {
+    color: var(--slate);
+    background-color: rgba(255,255,255,0.5);
+  }
+
+  .tab-btn.active[data-tab="visibleo"] {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+  }
+
+  .tab-btn.active[data-tab="act"] {
+    color: var(--forest);
+    border-bottom-color: var(--forest);
+  }
+
+  /* CONTENU */
+  .main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .tool-section {
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .tool-section.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BANDEAU OUTIL */
+  .tool-banner {
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .tool-banner.visibleo { background-color: #FDF0EA; border-left: 4px solid var(--terracotta); }
+  .tool-banner.act      { background-color: #EAF3EF; border-left: 4px solid var(--forest); }
+
+  .tool-badge {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  .tool-badge.visibleo { background-color: var(--terracotta); }
+  .tool-badge.act      { background-color: var(--forest); }
+
+  .tool-banner h2 {
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .tool-banner.visibleo h2 { color: var(--terracotta); }
+  .tool-banner.act h2      { color: var(--forest); }
+
+  .tool-banner p {
+    font-size: 0.9rem;
+    color: var(--slate-light);
+    font-weight: 300;
+  }
+
+  /* BLOCS CONTENU */
+  .content-block {
+    margin-bottom: 2rem;
+  }
+
+  .block-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content-block p {
+    font-size: 0.95rem;
+    color: var(--slate);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .content-block p + p {
+    margin-top: 0.75rem;
+  }
+
+  /* CARTES ÉTAPES */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .step-card {
+    background-color: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+
+  .step-num {
+    font-family: 'Lora', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .visibleo .step-num { color: var(--terracotta-light); }
+  .act      .step-num { color: var(--forest-light); }
+
+  .step-card h4 {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--slate);
+    margin-bottom: 0.4rem;
+  }
+
+  .step-card p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ENCART VIDÉO */
+  .video-placeholder {
+    background-color: var(--sand);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+
+  .video-placeholder .video-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .video-placeholder strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--slate-light);
+    margin-bottom: 0.25rem;
+  }
+
+  /* BOUTON LIEN */
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .cta-link.visibleo {
+    background-color: var(--terracotta);
+    color: white;
+  }
+
+  .cta-link.act {
+    background-color: var(--forest);
+    color: white;
+  }
+
+  .cta-link:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  /* ENCART CYCLE */
+  .cycle-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .cycle-tag.visibleo { background-color: #FDF0EA; color: var(--terracotta); }
+  .cycle-tag.act      { background-color: #EAF3EF; color: var(--forest); }
+
+  /* CITATION */
+  .quote-block {
+    border-left: 3px solid var(--border);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem 0;
+    background-color: rgba(245,240,232,0.5);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .quote-block p {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--slate-light);
+  }
+
+  .quote-block cite {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  /* FOOTER NAV */
+  .bottom-nav {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .bottom-nav a {
+    color: var(--slate-light);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .bottom-nav a:hover { text-decoration: underline; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .tab-btn { padding: 0.875rem 0.75rem; font-size: 0.82rem; }
+    .tab-btn .tab-label { display: none; }
+    .main { padding: 1.5rem 1rem 3rem; }
+    .tool-banner { flex-direction: column; gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <p class="module-label">Module 2 - Enseigner la compréhension </p>
+    <h1>Découvrir des outils pour enseigner la compréhension</h1>
+    <p class="header-intro">
+      Deux outils pour rendre visibles les processus de compréhension
+      — et aider les élèves à construire le sens, pas seulement à le restituer.
+    </p>
+  </div>
+</header>
+
+<!-- ONGLETS -->
+<div class="tabs-wrapper">
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="visibleo" role="tab" aria-selected="true" onclick="switchTab('visibleo')">
+      <span class="tab-icon">👁️</span>
+      <span class="tab-label">Le Visibiléo</span>
+    </button>
+    <button class="tab-btn" data-tab="act" role="tab" aria-selected="false" onclick="switchTab('act')">
+      <span class="tab-icon">🎯</span>
+      <span class="tab-label">L'ACT du ROLL</span>
+    </button>
+  </nav>
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<main class="main">
+
+  <!-- ===== SECTION VISIBILÉO ===== -->
+  <section class="tool-section visibleo active" id="section-visibleo">
+
+    <div class="tool-banner visibleo">
+      <div class="tool-badge visibleo">👁️</div>
+      <div>
+        <h2>Le Visibiléo</h2>
+        <p>Un outil pour matérialiser les liens logiques et les états mentaux des personnages</p>
+      </div>
+    </div>
+
+    <span class="cycle-tag visibleo">Cycle 2 · Maternelle → CP/CE</span>
+
+    <div class="content-block">
+      <p class="block-title">Pourquoi cet outil ?</p>
+      <p>
+        Comprendre un texte, ce n'est pas seulement suivre ce que font les personnages :
+        c'est aussi comprendre ce qu'ils pensent, ce qu'ils ressentent, pourquoi ils agissent ainsi.
+        Ces processus sont <em>invisibles</em> — pour les élèves, mais aussi pour l'enseignant
+        qui cherche à les observer.
+      </p>
+      <p>
+        Le Visibiléo est un outil didactique conçu pour <strong>rendre visibles et discutables</strong>
+        ces représentations mentales. Il permet de matérialiser collectivement les inférences,
+        les liens causaux et les états internes des personnages, en les posant "sur la table"
+        pour qu'on puisse en débattre.
+      </p>
+    </div>
+
+    <div class="quote-block">
+      <p>« Comprendre, c'est construire une représentation mentale cohérente de ce que
+      décrit le texte — ce qui implique de traiter les inférences et d'appréhender
+      les états mentaux des personnages. »</p>
+      <cite>— Marie-France Bishop</cite>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Comment ça se passe en classe ?</p>
+      <div class="steps visibleo">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h4>Lecture ou écoute du texte</h4>
+          <p>L'enseignant lit à voix haute. Les élèves écoutent sans pression de restitution immédiate.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h4>Pause et questionnement</h4>
+          <p>À des moments clés, on s'arrête : « Qu'est-ce qu'il pense ? Pourquoi il fait ça ? »</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <h4>Mise en visible collective</h4>
+          <p>Les pensées, émotions et liens logiques sont posés sur le support Visibiléo.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h4>Débat interprétatif</h4>
+          <p>Les élèves confrontent leurs interprétations, justifient, reviennent au texte.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Voir l'outil en action</p>
+      <!-- EMPLACEMENT IFRAME VISIBILÉO — remplacez l'attribut src par votre lien Genially -->
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 1px solid var(--border);">
+        <iframe
+          src="https://ladigitale.dev/digiview/#/v/6994727ec97b4"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+          allowfullscreen="true"
+          scrolling="yes">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Pour aller plus loin</p>
+      <a href="https://centre-alain-savary.ens-lyon.fr/CAS/thematiques/LECTURE-ECRITURE/pp-comprehension" class="cta-link visibleo" target="_blank" rel="noopener">
+        🔗 Accéder aux ressources Visibiléo
+      </a>
+    </div>
+
+  </section>
+
+  <!-- ===== SECTION ACT DU ROLL ===== -->
+  <section class="tool-section act" id="section-act">
+
+    <div class="tool-banner act">
+      <div class="tool-badge act">🎯</div>
+      <div>
+        <h2>L'ACT du ROLL</h2>
+        <p>Un outil d'aide à la compréhension de textes pour les lecteurs débutants</p>
+      </div>
+    </div>
+
+    <span class="cycle-tag act">Tous cycles</span>
+
+    <div class="content-block">
+      <p class="block-title">Pourquoi cet outil ?</p>
+      <p>
+        Au cycle 2, les élèves qui décodent bien ne comprennent pas nécessairement ce qu'ils lisent.
+        L'ACT (Aide à la Compréhension de Textes) est un outil développé dans le cadre du projet
+        ROLL (<em>Recherche sur l'enseignement et l'apprentissage Oral et Lecture</em>)
+        pour structurer l'enseignement de la compréhension dès les premiers apprentissages.
+      </p>
+      <p>
+        Il repose sur une pédagogie explicite de la compréhension : les Ateliers de Compréhension de Textes
+        éclairent les processus de compréhension en <strong>deux temps articulés</strong> — le recueil des interprétations
+        singulières des élèves, puis la vérification de leur légitimité arbitrée par le texte lui-même.
+      </p>
+    </div>
+
+    <div class="quote-block">
+      <p>« Savoir lire, ce n'est pas seulement savoir déchiffrer, c'est savoir interroger un texte pour lui arracher son sens. »</p>
+      <cite>— Alain Bentolila</cite>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Les deux temps de l'atelier</p>
+      <div class="steps act">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <h4>Recueil des interprétations singulières</h4>
+          <p>Après la lecture, chaque élève exprime sa compréhension personnelle du texte — ce qu'il a compris, ce qui l'a interpellé, ses hypothèses de sens.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <h4>Vérification arbitrée par le texte</h4>
+          <p>Retour collectif au texte pour valider ou invalider les interprétations : le texte devient l'arbitre, on y cherche les indices qui confirment ou infirment les hypothèses.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Ce que cet outil change dans la pratique</p>
+      <p>
+        Là où la pratique habituelle pose des questions <em>après</em> avoir lu pour vérifier si les élèves ont compris,
+        l'ACT du ROLL déplace la focale : il s'agit d'abord de <strong>recueillir ce que les élèves ont construit</strong>
+        comme représentation du texte, puis de les outiller pour <strong>revenir au texte comme source d'arbitrage</strong>.
+        Ce déplacement — de la vérification vers l'apprentissage de l'interprétation fondée — est précisément ce
+        que pointent les recherches sur la compréhension.
+      </p>
+      <p>
+        L'outil peut s'appliquer aussi bien sur des textes lus par l'enseignant (textes entendus)
+        que sur des textes lus par les élèves, selon leur niveau de décodage.
+      </p>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Voir l'outil en action</p>
+      <!-- EMPLACEMENT IFRAME ACT DU ROLL — remplacez l'attribut src par votre lien Genially -->
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; border: 1px solid var(--border);">
+        <iframe
+          src="https://ladigitale.dev/digiview/#/v/6994717b723db"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+          allowfullscreen="true"
+          scrolling="yes">
+        </iframe>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <p class="block-title">Pour aller plus loin</p>
+      <a href="https://www.roll-descartes.fr/" class="cta-link act" target="_blank" rel="noopener">
+        🔗 Accéder aux ressources ROLL
+      </a>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER NAV -->
+<footer class="bottom-nav">
+  <a href="#">← Module 1 : Le dilemme de métier</a>
+  <span>Module 2 / 3</span>
+  <a href="#">Module 3 : Pour aller plus loin →</a>
+</footer>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+    });
+    document.querySelectorAll('.tool-section').forEach(sec => {
+      sec.classList.remove('active');
+    });
+
+    document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+    document.querySelector(`[data-tab="${tab}"]`).setAttribute('aria-selected', 'true');
+    document.getElementById(`section-${tab}`).classList.add('active');
+  }
+</script>
+
+</body>
+</html>
